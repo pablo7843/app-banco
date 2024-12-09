@@ -1,4 +1,4 @@
-package com.example.t3a3_climent_pablo
+package com.example.t3a3_climent_pablo.activities
 
 import android.content.Intent
 import android.os.Bundle

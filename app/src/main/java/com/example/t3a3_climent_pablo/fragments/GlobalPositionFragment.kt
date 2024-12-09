@@ -1,13 +1,16 @@
 package com.example.t3a3_climent_pablo.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.t3a3_climent_pablo.activities.GlobalPositionDetailsActivity
 import com.example.t3a3_climent_pablo.adapter.CuentaAdapter
 import com.example.t3a3_climent_pablo.databinding.FragmentGlobalPositionBinding
+import com.example.t3a3_climent_pablo.pojo.Cliente
 import com.example.t3a3_climent_pablo.pojo.Cuenta
 
 class GlobalPositionFragment : Fragment() {
@@ -16,6 +19,7 @@ class GlobalPositionFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var listaCuentas: ArrayList<Cuenta>
+    private lateinit var cliente: Cliente
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,21 +27,20 @@ class GlobalPositionFragment : Fragment() {
     ): View {
         _binding = FragmentGlobalPositionBinding.inflate(inflater, container, false)
 
-        // Obtener la lista de cuentas pasada como argumento
         arguments?.let {
             listaCuentas = it.getSerializable("listaCuentas") as ArrayList<Cuenta>
         }
 
-        // Configurar RecyclerView para mostrar las cuentas
+        // Configurar RecyclerView con listener
+        val adapter = CuentaAdapter(listaCuentas, cliente!!) { cuentaSeleccionada ->
+            val intent = Intent(requireContext(), GlobalPositionDetailsActivity::class.java)
+            intent.putExtra("cuentaSeleccionada", cuentaSeleccionada)
+            startActivity(intent)
+        }
         binding.recyclerViewAccounts.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewAccounts.adapter = CuentaAdapter(listaCuentas)
+        binding.recyclerViewAccounts.adapter = adapter
 
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
-

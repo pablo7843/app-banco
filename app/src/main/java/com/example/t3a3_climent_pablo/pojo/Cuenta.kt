@@ -10,7 +10,7 @@ class Cuenta : Serializable {
     private var numeroCuenta: String? = null
     private var saldoActual = 0f
     private var cliente: Cliente? = null
-    private var listaMovimientos: ArrayList<Movimiento>? = null
+    var listaMovimientos: ArrayList<Movimiento>? = ArrayList()
 
     constructor(
         id: Int,

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.t3a3_climent_pablo.MovementsAdapter
+import com.example.t3a3_climent_pablo.adapter.MovementsAdapter
 import com.example.t3a3_climent_pablo.databinding.FragmentMovementsBinding
 import com.example.t3a3_climent_pablo.pojo.Movimiento
 

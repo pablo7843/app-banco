@@ -1,13 +1,12 @@
-package com.example.t3a3_climent_pablo
+package com.example.t3a3_climent_pablo.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.t3a3_climent_pablo.bd.MiBD
 import com.example.t3a3_climent_pablo.databinding.ActivityMainBinding
-import com.example.t3a3_climent_pablo.fragments.GlobalPositionFragment
-import com.example.t3a3_climent_pablo.fragments.MovementsFragment
 import com.example.t3a3_climent_pablo.pojo.Cliente
 import com.example.t3a3_climent_pablo.pojo.Cuenta
 import com.example.t3a3_climent_pablo.pojo.Movimiento
@@ -15,6 +14,7 @@ import com.example.t3a3_climent_pablo.pojo.Movimiento
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var cliente: Cliente
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,10 +23,11 @@ class MainActivity : AppCompatActivity() {
 
 
         // Obtener el cliente pasado por el intent
-        val cliente = intent.getSerializableExtra("Cliente") as? Cliente
+        cliente = intent.getSerializableExtra("Cliente") as Cliente
+        Log.d("MainActivity", "Cliente: $cliente")
 
         // Mensaje de bienvenida
-        binding.tvWelcomeMessage.text = "Bienvenido/a ${cliente?.getNombre()}"
+        binding.tvWelcomeMessage.text = "Bienvenido/a ${cliente.getNombre()}"
 
         // Cargar las cuentas del cliente desde la base de datos
         if (cliente != null) {
@@ -36,11 +37,13 @@ class MainActivity : AppCompatActivity() {
         // Botón para Posición Global
         binding.btnPosicionGlobal.setOnClickListener {
             val intent = Intent(this, GlobalPositionActivity::class.java)
-            // Pasar el cliente y sus cuentas a la actividad
+            // Pasar el cliente y las cuentas
             intent.putExtra("Cliente", cliente)
-            intent.putExtra("ListaCuentas", cliente?.obtenerListaCuentas())
+            intent.putExtra("ListaCuentas", ArrayList(cliente.obtenerListaCuentas())) // Asegúrate que obtenerListaCuentas() devuelve una lista serializable
+            intent.putExtra("ListaMovimientos", ArrayList(obtenerMovimientosDesdeBD(cliente)))
             startActivity(intent)
         }
+
 
         // Botón para Movimientos
         binding.btnMovimientos.setOnClickListener {

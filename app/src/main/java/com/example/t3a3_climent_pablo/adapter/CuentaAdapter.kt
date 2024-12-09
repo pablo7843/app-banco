@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.t3a3_climent_pablo.R
+import com.example.t3a3_climent_pablo.pojo.Cliente
 import com.example.t3a3_climent_pablo.pojo.Cuenta
 
-class CuentaAdapter(private val cuentas: List<Cuenta>) :
-    RecyclerView.Adapter<CuentaAdapter.CuentaViewHolder>() {
+class CuentaAdapter(
+    private val cuentas: List<Cuenta>,
+    private val cliente: Cliente,
+    private val onCuentaClick: (Cuenta) -> Unit
+) : RecyclerView.Adapter<CuentaAdapter.CuentaViewHolder>() {
 
     class CuentaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val numeroCuenta: TextView = itemView.findViewById(R.id.textNumeroCuenta)
@@ -24,9 +28,15 @@ class CuentaAdapter(private val cuentas: List<Cuenta>) :
 
     override fun onBindViewHolder(holder: CuentaViewHolder, position: Int) {
         val cuenta = cuentas[position]
-        holder.numeroCuenta.text = cuenta.getNumeroCuenta() ?: "Cuenta no disponible"
+        holder.numeroCuenta.text = cuenta.getNumeroCuenta()
         holder.saldo.text = "Saldo: ${cuenta.getSaldoActual()} €"
+
+        // Listener para clics
+        holder.itemView.setOnClickListener {
+            onCuentaClick(cuenta)
+        }
     }
 
     override fun getItemCount(): Int = cuentas.size
 }
+

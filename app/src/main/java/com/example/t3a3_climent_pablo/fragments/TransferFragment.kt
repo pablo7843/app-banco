@@ -1,5 +1,5 @@
 // TransferFragment.kt
-package com.example.t3a3_climent_pablo
+package com.example.t3a3_climent_pablo.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

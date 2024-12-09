@@ -1,10 +1,12 @@
-package com.example.t3a3_climent_pablo
+package com.example.t3a3_climent_pablo.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.t3a3_climent_pablo.R
 import com.example.t3a3_climent_pablo.pojo.Movimiento
 
 class MovementsAdapter(private var movimientos: List<Movimiento>) :
@@ -23,16 +25,24 @@ class MovementsAdapter(private var movimientos: List<Movimiento>) :
     }
 
     override fun onBindViewHolder(holder: MovementViewHolder, position: Int) {
-        val movimiento = movimientos[position]
-        holder.tvDescripcion.text = movimiento.getDescripcion()
-        holder.tvFecha.text = movimiento.getFechaOperacion().toString()
-        holder.tvImporte.text = "${movimiento.getImporte()} €"
+        if (movimientos.isNotEmpty()) {
+            val movimiento = movimientos[position]
+            holder.tvDescripcion.text = movimiento.getDescripcion()
+            holder.tvFecha.text = movimiento.getFechaOperacion().toString()
+            holder.tvImporte.text = "${movimiento.getImporte()} €"
+        } else {
+            // Maneja el caso en el que no haya movimientos
+            holder.tvDescripcion.text = "No hay movimientos"
+            holder.tvFecha.text = ""
+            holder.tvImporte.text = ""
+        }
     }
 
     override fun getItemCount(): Int = movimientos.size
 
     fun actualizarMovimientos(nuevosMovimientos: List<Movimiento>) {
         movimientos = nuevosMovimientos
+        Log.d("MovementsAdapter", "Actualizando movimientos: $nuevosMovimientos")
         notifyDataSetChanged()
     }
 }

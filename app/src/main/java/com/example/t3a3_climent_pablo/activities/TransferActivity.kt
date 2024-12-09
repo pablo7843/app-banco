@@ -1,11 +1,9 @@
-package com.example.t3a3_climent_pablo
+package com.example.t3a3_climent_pablo.activities
 
 import android.os.Bundle
-import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.t3a3_climent_pablo.databinding.ActivityTransferBinding
+import com.example.t3a3_climent_pablo.R
+import com.example.t3a3_climent_pablo.fragments.TransferFragment
 import com.example.t3a3_climent_pablo.pojo.Cliente
 
 class TransferActivity : AppCompatActivity() {

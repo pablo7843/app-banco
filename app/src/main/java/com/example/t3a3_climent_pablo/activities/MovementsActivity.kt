@@ -1,10 +1,11 @@
-package com.example.t3a3_climent_pablo
+package com.example.t3a3_climent_pablo.activities
 
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.t3a3_climent_pablo.adapter.MovementsAdapter
 import com.example.t3a3_climent_pablo.databinding.ActivityMovementsBinding
 import com.example.t3a3_climent_pablo.pojo.Cuenta
 import com.example.t3a3_climent_pablo.pojo.Movimiento

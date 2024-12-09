@@ -31,4 +31,6 @@
     <string name="realizar_transferencia">Realizar Transferencia</string>
     <string name="icono_banco">icono banco</string>
     <string name="ltimos_movimientos">Últimos Movimientos</string>
+    <string name="posici_n_global">Posición Global</string>
+    <string name="cuentas">Cuentas:</string>
 </resources>
