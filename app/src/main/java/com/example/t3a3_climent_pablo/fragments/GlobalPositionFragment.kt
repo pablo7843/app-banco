@@ -2,6 +2,7 @@ package com.example.t3a3_climent_pablo.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,9 @@ class GlobalPositionFragment : Fragment() {
         _binding = FragmentGlobalPositionBinding.inflate(inflater, container, false)
 
         arguments?.let {
-            listaCuentas = it.getSerializable("listaCuentas") as ArrayList<Cuenta>
+            cliente = it.getSerializable("Cliente") as Cliente // Recuperar cliente correctamente
+            listaCuentas = it.getSerializable("ListaCuentas") as ArrayList<Cuenta> // Clave corregida
+            Log.d("GlobalPositionFragment", "Lista de cuentas recibida: $listaCuentas")
         }
 
         // Configurar RecyclerView con listener

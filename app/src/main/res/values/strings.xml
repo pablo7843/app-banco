@@ -33,4 +33,9 @@
     <string name="ltimos_movimientos">Últimos Movimientos</string>
     <string name="posici_n_global">Posición Global</string>
     <string name="cuentas">Cuentas:</string>
+    <string name="aplicaci_n_del_banco_bienvenido_a">Aplicación del banco, bienvenido/a</string>
+    <string name="home">Home</string>
+    <string name="settings">Configuración</string>
+    <string name="open_nav_drawer">Abrir menú</string>
+    <string name="close_nav_drawer">Cerrar menú</string>
 </resources>

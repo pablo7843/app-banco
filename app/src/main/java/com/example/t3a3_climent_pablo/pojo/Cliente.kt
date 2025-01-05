@@ -9,7 +9,7 @@ class Cliente : Serializable {
     private var apellidos: String? = null
     private var claveSeguridad: String? = null
     private var email: String? = null
-    var listaCuentas: ArrayList<Cuenta>? = ArrayList()
+    var listaCuentas: ArrayList<Cuenta> = ArrayList()
 
     constructor(
         id: Int,
@@ -41,11 +41,11 @@ class Cliente : Serializable {
 
 
 
-    fun obtenerListaCuentas(): ArrayList<Cuenta>? {
-        return listaCuentas
+    fun obtenerListaCuentas(): ArrayList<Cuenta> {
+        return listaCuentas ?: ArrayList()
     }
 
-    fun setListaDeCuentas(cuentas: ArrayList<Cuenta>?) {
+    fun setListaDeCuentas(cuentas: ArrayList<Cuenta>) {
         listaCuentas = cuentas
     }
 

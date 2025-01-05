@@ -1,103 +1,87 @@
 package com.example.t3a3_climent_pablo.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.t3a3_climent_pablo.bd.MiBD
-import com.example.t3a3_climent_pablo.databinding.ActivityMainBinding
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.example.t3a3_climent_pablo.R
+import com.example.t3a3_climent_pablo.fragments.GlobalPositionFragment
+import com.example.t3a3_climent_pablo.fragments.HomeFragment
 import com.example.t3a3_climent_pablo.pojo.Cliente
-import com.example.t3a3_climent_pablo.pojo.Cuenta
-import com.example.t3a3_climent_pablo.pojo.Movimiento
+import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var drawerLayout: DrawerLayout
     private lateinit var cliente: Cliente
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-
-        // Obtener el cliente pasado por el intent
+        // Recibir cliente desde el intent
         cliente = intent.getSerializableExtra("Cliente") as Cliente
         Log.d("MainActivity", "Cliente: $cliente")
 
-        // Mensaje de bienvenida
-        binding.tvWelcomeMessage.text = "Bienvenido/a ${cliente.getNombre()}"
+        // Configurar el Navigation Drawer
+        drawerLayout = findViewById(R.id.drawer_layout)
 
-        // Cargar las cuentas del cliente desde la base de datos
-        if (cliente != null) {
-            cliente.setListaDeCuentas(cargarCuentasDesdeBD(cliente))
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        // Cargar el HomeFragment al inicio
+        if (savedInstanceState == null) {
+            val fragment = HomeFragment()
+            val bundle = Bundle()
+            bundle.putSerializable("Cliente", cliente) // Pasar cliente como argumento
+            fragment.arguments = bundle // Asignar argumentos al fragmento
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment).commit()
+            navigationView.setCheckedItem(R.id.nav_home)
         }
 
-        // Botón para Posición Global
-        binding.btnPosicionGlobal.setOnClickListener {
-            val intent = Intent(this, GlobalPositionActivity::class.java)
-            // Pasar el cliente y las cuentas
-            intent.putExtra("Cliente", cliente)
-            intent.putExtra("ListaCuentas", ArrayList(cliente.obtenerListaCuentas())) // Asegúrate que obtenerListaCuentas() devuelve una lista serializable
-            intent.putExtra("ListaMovimientos", ArrayList(obtenerMovimientosDesdeBD(cliente)))
-            startActivity(intent)
-        }
-
-
-        // Botón para Movimientos
-        binding.btnMovimientos.setOnClickListener {
-            val intent = Intent(this, MovementsActivity::class.java)
-            // Convertimos la lista de cuentas y movimientos en Serializable
-            intent.putExtra("cuentas", ArrayList(cliente?.obtenerListaCuentas()))
-            intent.putExtra("movimientos", ArrayList(obtenerMovimientosDesdeBD(cliente)))
-
-            startActivity(intent)
-        }
-
-        // Botón para Transferencias
-        binding.btnTransferencias.setOnClickListener {
-            val intent = Intent(this, TransferActivity::class.java)
-            intent.putExtra("Cliente", cliente)
-            startActivity(intent)
-        }
-
-        // Botón para Cambiar Clave
-        binding.btnCambiarClave.setOnClickListener {
-            Toast.makeText(this, "Función cambiar clave en desarrollo.", Toast.LENGTH_SHORT).show()
-        }
-
-        // Botón para Promociones
-        binding.btnPromociones.setOnClickListener {
-            Toast.makeText(this, "Función promociones en desarrollo.", Toast.LENGTH_SHORT).show()
-        }
-
-        // Botón para Cajeros
-        binding.btnCajeros.setOnClickListener {
-            Toast.makeText(this, "Función cajeros en desarrollo.", Toast.LENGTH_SHORT).show()
-        }
-
-        // Botón para Salir
-        binding.btnSalir.setOnClickListener {
-            finish()
-        }
-
-        // Botón flotante
-        binding.fabBank.setOnClickListener {
-            Toast.makeText(this, "Función Banco (Botón flotante) en desarrollo.", Toast.LENGTH_SHORT).show()
-        }
-    }
-    private fun obtenerMovimientosDesdeBD(cliente: Cliente?): List<Movimiento> {
-        val movimientoDAO = MiBD.getInstance(this)?.movimientoDAO
-        return cliente?.obtenerListaCuentas()?.flatMap { cuenta ->
-            movimientoDAO?.getMovimientos(cuenta)?.filterIsInstance<Movimiento>() ?: emptyList()
-        } ?: emptyList()
     }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_home -> {
+                val fragment = HomeFragment()
+                val bundle = Bundle()
+                bundle.putSerializable("Cliente", cliente)
+                fragment.arguments = bundle
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit()
+            }
+            R.id.nav_posicion_global -> {
+                val fragment = GlobalPositionFragment()
+                val bundle = Bundle()
+                bundle.putSerializable("cliente", cliente)
+                bundle.putSerializable("ListaCuentas", ArrayList(cliente.obtenerListaCuentas()))
+                fragment.arguments = bundle
 
-    private fun cargarCuentasDesdeBD(cliente: Cliente): ArrayList<Cuenta> {
-        val cuentaDAO = MiBD.getInstance(this)?.cuentaDAO
-        return (cuentaDAO?.getCuentas(cliente) as? ArrayList<Cuenta>) ?: arrayListOf()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment).commit()
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
 }

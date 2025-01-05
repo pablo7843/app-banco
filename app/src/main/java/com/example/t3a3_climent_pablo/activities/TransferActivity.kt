@@ -1,6 +1,7 @@
 package com.example.t3a3_climent_pablo.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.t3a3_climent_pablo.R
 import com.example.t3a3_climent_pablo.fragments.TransferFragment
@@ -18,6 +19,7 @@ class TransferActivity : AppCompatActivity() {
 
             // Obtén el cliente pasado como extra y añádelo al fragment
             val cliente = intent.getSerializableExtra("Cliente") as? Cliente
+            Log.d("TransferActivity", "Cliente recibido: $cliente")
             val bundle = Bundle()
             bundle.putSerializable("Cliente", cliente)
             fragment.arguments = bundle

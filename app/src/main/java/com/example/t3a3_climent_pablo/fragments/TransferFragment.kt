@@ -2,6 +2,7 @@
 package com.example.t3a3_climent_pablo.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ class TransferFragment : Fragment() {
 
         // Recuperamos el cliente pasado al fragmento
         cliente = arguments?.getSerializable("Cliente") as Cliente
+        Log.d("TransferFragment", "Cliente recibido: $cliente")
 
         val cuentas = cliente.obtenerListaCuentas()
 
