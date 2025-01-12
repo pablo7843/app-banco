@@ -38,4 +38,15 @@
     <string name="settings">Configuración</string>
     <string name="open_nav_drawer">Abrir menú</string>
     <string name="close_nav_drawer">Cerrar menú</string>
+    <string name="multimedia_category">Multimedia</string>
+    <string name="language_category">Language</string>
+    <string name="data_category">Data</string>
+
+    <!-- Options -->
+    <string name="music">Musica</string>
+    <string name="music_summary">No escuchar musica mientras la aplicacion se esta ejecutando</string>
+    <string name="welcome_video">Welcome video</string>
+    <string name="welcome_video_summary">No ver video mientras se ejecuta la aplicacion</string>
+    <string name="language">Idioma de la app</string>
+    <string name="data_source">Data</string>
 </resources>
