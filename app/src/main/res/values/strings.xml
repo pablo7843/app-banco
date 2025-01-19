@@ -49,4 +49,16 @@
     <string name="welcome_video_summary">No ver video mientras se ejecuta la aplicacion</string>
     <string name="language">Idioma de la app</string>
     <string name="data_source">Data</string>
+    <string name="modificar">Modificar</string>
+    <string name="borrardfvfd">Borrar</string>
+    <string name="adress">Direccion</string>
+    <string name="latitudx">Latitud\n</string>
+    <string name="longitudx">Longitud</string>
+    <string name="guardar">Guardar</string>
+    <string name="atm_listdf">Lista\n</string>
+    <string name="select_atm">Selecciona ATM</string>
+    <string name="atm">ATM</string>
+    <string name="atm_list">ATM LIST</string>
+    <string name="atm_add">ATM ADD\n</string>
+    <string name="atm_maps">ATM MAPS</string>
 </resources>

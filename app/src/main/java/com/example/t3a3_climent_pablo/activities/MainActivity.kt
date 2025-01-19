@@ -74,6 +74,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment).commit()
             }
+            R.id.nav_cajeros -> {
+                navigateToAtms(cliente)
+            }
             R.id.nav_help -> {
                 Log.d("MainActivity", "Settings menu clicked")
                 val intent = Intent(this, SettingsActivity::class.java)
@@ -90,5 +93,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun navigateToAtms(cliente: Cliente) {
+        val intent = Intent(this, AtmManagementActivity::class.java)
+        intent.putExtra("Cliente", cliente)
+        startActivity(intent)
     }
 }

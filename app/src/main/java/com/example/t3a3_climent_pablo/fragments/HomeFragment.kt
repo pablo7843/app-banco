@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.t3a3_climent_pablo.R
+import com.example.t3a3_climent_pablo.activities.AtmManagementActivity
 import com.example.t3a3_climent_pablo.activities.GlobalPositionActivity
 import com.example.t3a3_climent_pablo.activities.MovementsActivity
 import com.example.t3a3_climent_pablo.activities.TransferActivity
@@ -80,7 +81,9 @@ class HomeFragment : Fragment() {
 
         // Botón para Cajeros
         binding.btnCajeros.setOnClickListener {
-            Toast.makeText(activity, "Función cajeros en desarrollo.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(activity, AtmManagementActivity::class.java)
+            intent.putExtra("Cliente", cliente)
+            startActivity(intent)
         }
 
         // Botón para Salir

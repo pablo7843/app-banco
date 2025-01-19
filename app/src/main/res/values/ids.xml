@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="botonGuardar" type="id">botonGuardar</item>
+    <item name="direccion" type="id">direccion</item>
+    <item name="textoDireccion" type="id">textoDireccion</item>
+    <item name="latitud" type="id">latitud</item>
+    <item name="textoLatitud" type="id">textoLatitud</item>
+    <item name="longitud" type="id">longitud</item>
+    <item name="textoLongitud" type="id">textoLongitud</item>
+    <item name="botonCancelar" type="id">botonCancelar</item>
+</resources>
