@@ -6,29 +6,32 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.t3a3_climent_pablo.adapter.MovementsAdapter
+import com.example.t3a3_climent_pablo.bd.MiBancoOperacional
 import com.example.t3a3_climent_pablo.databinding.ActivityMovementsBinding
+import com.example.t3a3_climent_pablo.pojo.Cliente
 import com.example.t3a3_climent_pablo.pojo.Cuenta
 import com.example.t3a3_climent_pablo.pojo.Movimiento
 
-class MovementsActivity : AppCompatActivity() {
+class MovementsActivity : AppCompatActivity(), MovementsAdapter.OnMovementClickListener {
 
     private lateinit var binding: ActivityMovementsBinding
     private lateinit var movimientosAdapter: MovementsAdapter
-    private lateinit var cuentas: List<Cuenta>
-    private lateinit var movimientos: List<Movimiento>
+    private lateinit var cuentasDelCliente: List<Cuenta>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovementsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Recibir datos desde el Intent
-        cuentas = intent.getSerializableExtra("cuentas") as? List<Cuenta> ?: emptyList()
-        movimientos = intent.getSerializableExtra("movimientos") as? List<Movimiento> ?: emptyList()
+        val cliente = intent.getSerializableExtra("cliente") as? Cliente
+        val bancoOp = MiBancoOperacional.getInstance(this)
+
+        // Obtener movimientos y cuentas del cliente
+        cuentasDelCliente = bancoOp?.getCuentas(cliente) as? List<Cuenta> ?: emptyList()
 
         // Configurar el Spinner con las cuentas
-        val cuentasNombres = cuentas.map { cuenta ->
-            "${cuenta.getBanco()}-${cuenta.getNumeroCuenta()}"
+        val cuentasNombres = cuentasDelCliente.map {
+            "${it.getBanco()}-${it.getDc()}-${it.getSucursal()}-${it.getNumeroCuenta()}"
         }
 
         val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cuentasNombres)
@@ -36,19 +39,32 @@ class MovementsActivity : AppCompatActivity() {
         binding.spinnerMovimientos.adapter = spinnerAdapter
 
         // Configurar RecyclerView
-        binding.recyclerViewMovimientos.layoutManager = LinearLayoutManager(this)
-        movimientosAdapter = MovementsAdapter(emptyList()) // Inicialmente vacío
-        binding.recyclerViewMovimientos.adapter = movimientosAdapter
+        binding.recViewMovimientos.layoutManager = LinearLayoutManager(this)
+        binding.recViewMovimientos.adapter = movimientosAdapter
 
         // Listener para actualizar movimientos al seleccionar una cuenta
         binding.spinnerMovimientos.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View, position: Int, id: Long) {
-                val cuentaSeleccionada = cuentas[position]
-                val movimientosFiltrados = movimientos.filter { it.getId() == cuentaSeleccionada.getId() }
-                movimientosAdapter.actualizarMovimientos(movimientosFiltrados)
+            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
+                val cuentaSeleccionada = cuentasDelCliente[position]
+                updateMovements(cuentaSeleccionada)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
+        if (cuentasDelCliente.isNotEmpty()) {
+            updateMovements(cuentasDelCliente[0])
+        }
+    }
+
+    private fun updateMovements(cuenta: Cuenta) {
+        val bancoOperacional = MiBancoOperacional.getInstance(this)
+        val movimientos = bancoOperacional?.getMovimientos(cuenta) ?: emptyList()
+
+        movimientosAdapter = MovementsAdapter(movimientos as List<Movimiento>, this)
+        binding.recViewMovimientos.adapter = movimientosAdapter
+    }
+
+    override fun onMovementClick(movimiento: Movimiento) {
     }
 }

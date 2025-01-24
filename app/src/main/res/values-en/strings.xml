@@ -50,4 +50,7 @@
     <string name="welcome_video_summary">Don´t play a video when starting the app</string>
     <string name="language">App language</string>
     <string name="data_source">Data source</string>
+    <string name="open">Open\n</string>
+    <string name="close">Close</string>
+
 </resources>

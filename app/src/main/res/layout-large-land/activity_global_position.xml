@@ -10,12 +10,21 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentPosicionesGlobales"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fragmentMovimientos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout="@layout/fragment_global_position" />
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentMovimientos"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fragmentPosicionesGlobales"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_movements" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
